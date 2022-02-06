@@ -1,0 +1,106 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:14.1
+    container_name: hyperback-postgres-container
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - api-network
+    env_file: ./config/.env
+
+  redis:
+    image: redis:6.2.6
+    container_name: hyperback-container
+    volumes:
+      - redisdata:/data
+    networks:
+      - api-network
+
+  server:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      cache_from:
+        - "api:latest"
+    image: "api:latest"
+    restart: "unless-stopped"
+    stop_grace_period: "5s"
+    volumes:
+      - ./src:/usr/src/app
+      - django-static:/var/www/django/static
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - api-network
+      - api-proxy-network
+    env_file:
+      - ./config/.env
+    container_name: hyperback-container
+    ports:
+      - "8000:8000"
+    environment:
+      COMMAND: development
+
+  worker:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      cache_from:
+        - "api:latest"
+    image: "api:latest"
+    restart: "unless-stopped"
+    stop_grace_period: "5s"
+    volumes:
+      - ./src:/usr/src/app
+      - django-static:/var/www/django/static
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - api-network
+      - api-proxy-network
+    env_file:
+      - ./config/.env
+    container_name: hyperback-worker-container
+    environment:
+        COMMAND: worker
+
+  beat:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      cache_from:
+        - "api:latest"
+    image: "api:latest"
+    restart: "unless-stopped"
+    stop_grace_period: "5s"
+    volumes:
+      - ./src:/usr/src/app
+      - django-static:/var/www/django/static
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - api-network
+      - api-proxy-network
+    env_file:
+      - ./config/.env
+    container_name: hyperback-beat-container
+    environment:
+        COMMAND: beat
+
+networks:
+  api-proxy-network:
+
+  api-network:
+
+volumes:
+  pgdata:
+  redisdata:
+  django-static:
+  django-media:
+  django-locale:
