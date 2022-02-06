@@ -9,7 +9,7 @@ bash:
 	docker-compose run --rm server bash
 
 shell:
-	docker-compose run --rm server python manage.py shell_plus
+	docker-compose run --rm server python manage.py shell
 
 migrate:
 	docker-compose run --rm server python manage.py migrate --noinput
