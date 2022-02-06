@@ -25,11 +25,13 @@ class Web3ContractWrapper:
 
     def connect_to_w3(self) -> Web3:
         provider = Web3.HTTPProvider(f"{self.url}{self.api_key}")
-        return Web3(provider)
+        w3 = Web3(provider)
+        w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+        return w3
 
     def get_contract(self, w3: Web3) -> Contract:
         abi = self.load_abi()
-        contract = w3.eth.contract(address=self.contract_address, abi=abi)
+        contract = w3.eth.contract(abi=abi, address=self.contract_address)
         return contract
 
     def get_account(self, w3: Web3) -> LocalAccount:
@@ -37,7 +39,6 @@ class Web3ContractWrapper:
         return account
 
     def send_transaction(self, to: str, value: int, w3: Web3, ct: Contract, acc: LocalAccount):
-        w3.middleware_onion.inject(geth_poa_middleware, layer=0)
         nonce = w3.eth.get_transaction_count(acc.address)
         gas_price = w3.eth.gas_price
         value = value * 1e18
