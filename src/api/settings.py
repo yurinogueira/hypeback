@@ -96,10 +96,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # COIN SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-CONTRACT_ADDRESS = env.str("CONTRACT_ADDRESS", default="")
-ABI_FILE_NAME = env.str("ABI_FILE_NAME", default="")
-ACCOUNT_PRIVATE_KEY = env.str("ACCOUNT_PRIVATE_KEY", default="")
 CHAIN_ID = env.int("CHAIN_ID", default=0)
+CONTRACT_ADDRESS = env.str("CONTRACT_ADDRESS", default="")
+ACCOUNT_PRIVATE_KEY = env.str("ACCOUNT_PRIVATE_KEY", default="")
+ABI_FILE_NAME = env.str("ABI_FILE_NAME", default="")
+BYTECODE_FILE_NAME = env.str("BYTECODE_FILE_NAME", default="")
+TEST_ABI_FILE_NAME = env.str("TEST_ABI_FILE_NAME", default="")
+TEST_BYTECODE_FILE_NAME = env.str("TEST_BYTECODE_FILE_NAME", default="")
+
 
 # GET BLOCK SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------

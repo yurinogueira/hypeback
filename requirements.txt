@@ -6,3 +6,5 @@ pytest==6.2.5
 pytest-django==4.5.2
 pytest-cov==3.0.0
 psycopg2-binary==2.9.3
+eth-tester==0.6.0b6
+py-evm==0.5.0a3
