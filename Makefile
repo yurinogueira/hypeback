@@ -5,6 +5,9 @@
 
 default:
 
+build:
+	docker-compose build --force-rm --no-cache --pull
+
 bash:
 	docker-compose run --rm server bash
 
@@ -40,5 +43,14 @@ beat:
 test:
 	docker-compose run --rm server pytest
 
-build:
-	docker-compose build --force-rm --no-cache --pull
+_flake8:
+	docker-compose run --rm server flake8 --show-source .
+
+_isort:
+	docker-compose run --rm server isort --diff --check-only .
+
+_isort-clear:
+	docker-compose run --rm server isort .
+
+lint: _flake8 _isort
+format-code: _isort-clear

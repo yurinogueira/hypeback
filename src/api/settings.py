@@ -10,11 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
-import environ
 import urllib.parse
-
 from pathlib import Path
 
+import environ
 
 env = environ.Env()
 
@@ -101,8 +100,8 @@ CONTRACT_ADDRESS = env.str("CONTRACT_ADDRESS", default="")
 ACCOUNT_PRIVATE_KEY = env.str("ACCOUNT_PRIVATE_KEY", default="")
 ABI_FILE_NAME = env.str("ABI_FILE_NAME", default="")
 BYTECODE_FILE_NAME = env.str("BYTECODE_FILE_NAME", default="")
-TEST_ABI_FILE_NAME = env.str("TEST_ABI_FILE_NAME", default="")
-TEST_BYTECODE_FILE_NAME = env.str("TEST_BYTECODE_FILE_NAME", default="")
+TEST_ABI_FILE_NAME = env.str("TEST_ABI_FILE_NAME", default="api/tests/abi.json")
+TEST_BYTECODE_FILE_NAME = env.str("TEST_BYTECODE_FILE_NAME", default="api/tests/bytecode.txt")
 
 
 # GET BLOCK SETTINGS

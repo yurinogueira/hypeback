@@ -1,9 +1,9 @@
 import json
 
 from django.conf import settings
+from eth_account.account import LocalAccount
 from web3 import Web3
 from web3.eth import Contract
-from eth_account.account import LocalAccount
 from web3.middleware import geth_poa_middleware
 
 

@@ -5,6 +5,9 @@ web3==5.26.0
 pytest==6.2.5
 pytest-django==4.5.2
 pytest-cov==3.0.0
+pytest-socket==0.4.1
 psycopg2-binary==2.9.3
 eth-tester==0.6.0b6
 py-evm==0.5.0a3
+flake8==4.0.1
+isort==5.10.1
