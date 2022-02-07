@@ -4,12 +4,12 @@ on:
   push:
     branches:
       - main
-      - 'dependabot/**'
-      - 'refactor/**'
-      - 'feature/**'
-      - 'bugfix/**'
-      - 'hotfix/**'
-      - 'chore/**'
+      - "dependabot/**"
+      - "refactor/**"
+      - "feature/**"
+      - "bugfix/**"
+      - "hotfix/**"
+      - "chore/**"
 
 jobs:
   code-quality:
@@ -59,6 +59,8 @@ jobs:
 
       - name: test
         env:
+          DJANGO_SETTINGS_MODULE: api.settings
+          SECRET_KEY: 99rt$=_lo@90m=hcw*rf^rguwu$kio$!o1ojibp$#$!%ary-a(
           DATABASE_DEFAULT_URL: postgres://postgres:postgres@localhost:5432/postgres?conn_max_age=600
         working-directory: ./src
-        run: pytest --cov
+        run: pytest . --cov . --cov-report term-missing --disable-socket --allow-unix-socket
