@@ -41,16 +41,22 @@ beat:
 # Test and Code Quality
 # -----------------------------------------------------------------------------
 test:
-	docker-compose run --rm server pytest
-
-_flake8:
-	docker-compose run --rm server flake8 --show-source .
+	docker-compose run --rm --no-deps server pytest
 
 _isort:
-	docker-compose run --rm server isort --diff --check-only .
+	docker-compose run --rm --no-deps server isort --diff --check-only .
+
+_black:
+	docker-compose run --rm --no-deps server black --check .
+
+_mypy:
+	docker-compose run --rm --no-deps server mypy . --exclude migrations
 
 _isort-clear:
-	docker-compose run --rm server isort .
+	docker-compose run --rm --no-deps server isort .
 
-lint: _flake8 _isort
-format-code: _isort-clear
+_black_fix:
+	docker-compose run --rm --no-deps server black .
+
+lint: _isort _black _mypy
+format-code: _isort-clear _black_fix

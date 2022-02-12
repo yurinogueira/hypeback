@@ -10,6 +10,7 @@ on:
       - "bugfix/**"
       - "hotfix/**"
       - "chore/**"
+      - "style/**"
 
 jobs:
   code-quality:
@@ -49,13 +50,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: flake8
-        working-directory: ./src
-        run: flake8 --exclude=*/migrations/* --show-source
-
       - name: isort
         working-directory: ./src
         run: isort --diff --check-only .
+
+      - name: mypy
+        working-directory: ./src
+        run: mypy . --exclude migrations
+
+      - name: black
+        working-directory: ./src
+        run: black --check .
 
       - name: test
         env:

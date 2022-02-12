@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
-import urllib.parse
 from pathlib import Path
+import urllib.parse
 
 import environ
 
@@ -30,7 +30,7 @@ SECRET_KEY = env.str("SECRET_KEY", default="")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 
 # Application definition
@@ -101,7 +101,9 @@ ACCOUNT_PRIVATE_KEY = env.str("ACCOUNT_PRIVATE_KEY", default="")
 ABI_FILE_NAME = env.str("ABI_FILE_NAME", default="")
 BYTECODE_FILE_NAME = env.str("BYTECODE_FILE_NAME", default="")
 TEST_ABI_FILE_NAME = env.str("TEST_ABI_FILE_NAME", default="api/tests/abi.json")
-TEST_BYTECODE_FILE_NAME = env.str("TEST_BYTECODE_FILE_NAME", default="api/tests/bytecode.txt")
+TEST_BYTECODE_FILE_NAME = env.str(
+    "TEST_BYTECODE_FILE_NAME", default="api/tests/bytecode.txt"
+)
 
 
 # GET BLOCK SETTINGS
@@ -115,7 +117,7 @@ GET_BLOCK_URL = env.str("GET_BLOCK_URL", default="")
 DATABASES = {
     "default": env.db_url(
         "DATABASE_DEFAULT_URL",
-        default="sqlite:///{}".format(os.path.join(BASE_DIR, "db.sqlite3"))
+        default="sqlite:///{}".format(os.path.join(BASE_DIR, "db.sqlite3")),
     ),
 }
 

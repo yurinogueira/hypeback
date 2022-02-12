@@ -1,10 +1,14 @@
 import json
 
 from django.conf import settings
+
 from eth_account.account import LocalAccount
 from web3 import Web3
 from web3.eth import Contract
 from web3.middleware import geth_poa_middleware
+from web3.types import HexBytes, Wei
+
+from consumer.models import Transaction
 
 
 class Web3ContractWrapper:
@@ -38,18 +42,28 @@ class Web3ContractWrapper:
         account = w3.eth.account.from_key(self.account_private_key)
         return account
 
-    def send_transaction(self, to: str, value: int, w3: Web3, ct: Contract, acc: LocalAccount):
-        nonce = w3.eth.get_transaction_count(acc.address)
-        gas_price = w3.eth.gas_price
-        value = value * 1e18
-        transaction = ct.functions.transfer(to, int(value)).buildTransaction({
-            "gas": 2000000,
-            "gasPrice": gas_price,
-            "from": acc.address,
-            "nonce": nonce,
-        })
-        private_key = self.account_private_key
-        signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_key)
-        transaction = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+    def send_transaction(self, transaction_model: Transaction) -> HexBytes:
+        to = transaction_model.to
+        w3 = transaction_model.web3_connection
+        contract = transaction_model.contract
+        account = transaction_model.account
 
-        return transaction
+        nonce = w3.eth.get_transaction_count(account.address)
+        gas_price = w3.eth.gas_price
+        value = int(transaction_model.value * 1e18)
+
+        transaction = contract.functions.transfer(to, value).buildTransaction(
+            {
+                "gas": Wei(2000000),
+                "gasPrice": gas_price,
+                "from": account.address,
+                "nonce": nonce,
+            }
+        )
+        private_key = self.account_private_key
+        signed_txn = w3.eth.account.sign_transaction(
+            transaction_dict=transaction, private_key=private_key
+        )
+        result = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+
+        return result

@@ -1,7 +1,8 @@
 import json
 
-import pytest
 from django.conf import settings
+
+import pytest
 from web3 import EthereumTesterProvider, Web3
 
 
@@ -33,7 +34,7 @@ class TestWeb3Contract:
         deploy_address = eth_tester.get_accounts()[0]
         contract = w3.eth.contract(abi=abi, bytecode=bytecode)
 
-        tx_hash = contract.constructor().transact({'from': deploy_address})
+        tx_hash = contract.constructor().transact({"from": deploy_address})
         tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash, 180)
 
         return contract(tx_receipt.contractAddress)
