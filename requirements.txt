@@ -2,7 +2,7 @@ environ==1.0
 Django==4.0.1
 django-environ==0.8.1
 web3==5.26.0
-pytest==6.2.5
+pytest==7.0.1
 pytest-django==4.5.2
 pytest-cov==3.0.0
 pytest-socket==0.4.1
