@@ -8,7 +8,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      - api-network
+      - api-hyperback-network
     env_file: ./config/.env
 
   redis:
@@ -17,7 +17,7 @@ services:
     volumes:
       - redisdata:/data
     networks:
-      - api-network
+      - api-hyperback-network
 
   server:
     build:
@@ -35,8 +35,8 @@ services:
       - postgres
       - redis
     networks:
-      - api-network
-      - api-proxy-network
+      - api-hyperback-network
+      - api-hyperback-proxy-network
     env_file:
       - ./config/.env
     container_name: hyperback-container
@@ -61,8 +61,8 @@ services:
       - postgres
       - redis
     networks:
-      - api-network
-      - api-proxy-network
+      - api-hyperback-network
+      - api-hyperback-proxy-network
     env_file:
       - ./config/.env
     container_name: hyperback-worker-container
@@ -85,8 +85,8 @@ services:
       - postgres
       - redis
     networks:
-      - api-network
-      - api-proxy-network
+      - api-hyperback-network
+      - api-hyperback-proxy-network
     env_file:
       - ./config/.env
     container_name: hyperback-beat-container
@@ -94,9 +94,9 @@ services:
         COMMAND: beat
 
 networks:
-  api-proxy-network:
+  api-hyperback-proxy-network:
 
-  api-network:
+  api-hyperback-network:
 
 volumes:
   pgdata:

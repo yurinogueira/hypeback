@@ -1,7 +1,8 @@
 import json
 
-import pytest
 from django.conf import settings
+
+import pytest
 from web3 import EthereumTesterProvider, Web3
 
 
