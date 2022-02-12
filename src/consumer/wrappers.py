@@ -13,12 +13,9 @@ from consumer.models import Transaction
 
 class Web3ContractWrapper:
     def __init__(self):
-        self.api_key = settings.GET_BLOCK_API_KEY
-        self.url = settings.GET_BLOCK_URL
-        self.contract_address = settings.CONTRACT_ADDRESS
-        self.abi_file_name = settings.ABI_FILE_NAME
-        self.account_private_key = settings.ACCOUNT_PRIVATE_KEY
-        self.chain_id = settings.CHAIN_ID
+        self.abi_file_name = settings.NFT_ABI_FILE_NAME
+        self.url = settings.NFT_URL
+        self.contract_address = settings.NFT_CONTRACT_ADDRESS
 
     def load_abi(self) -> dict:
         file = open(self.abi_file_name)
@@ -28,15 +25,23 @@ class Web3ContractWrapper:
         return data
 
     def connect_to_w3(self) -> Web3:
-        provider = Web3.HTTPProvider(f"{self.url}{self.api_key}")
+        provider = Web3.HTTPProvider(self.url)
         w3 = Web3(provider)
         w3.middleware_onion.inject(geth_poa_middleware, layer=0)
         return w3
 
     def get_contract(self, w3: Web3) -> Contract:
-        abi = self.load_abi()
-        contract = w3.eth.contract(abi=abi, address=self.contract_address)
-        return contract
+        return w3.eth.contract(self.contract_address, abi=self.load_abi())
+
+
+class Web3TokenWrapper(Web3ContractWrapper):
+    def __init__(self):
+        super(Web3TokenWrapper, self).__init__()
+        self.url = settings.TOKEN_URL
+        self.contract_address = settings.TOKEN_CONTRACT_ADDRESS
+        self.abi_file_name = settings.ABI_FILE_NAME
+        self.account_private_key = settings.TOKEN_ACCOUNT_PRIVATE_KEY
+        self.chain_id = settings.TOKEN_CHAIN_ID
 
     def get_account(self, w3: Web3) -> LocalAccount:
         account = w3.eth.account.from_key(self.account_private_key)
@@ -48,14 +53,14 @@ class Web3ContractWrapper:
         contract = transaction_model.contract
         account = transaction_model.account
 
-        nonce = w3.eth.get_transaction_count(account.address)
-        gas_price = w3.eth.gas_price
+        nonce = w3.eth.get_transaction_count(account.address, "pending")
+        gas_price = int(w3.eth.gas_price * 1.2)
         value = int(transaction_model.value * 1e18)
 
         transaction = contract.functions.transfer(to, value).buildTransaction(
             {
-                "gas": Wei(2000000),
-                "gasPrice": gas_price,
+                "gas": Wei(20000000),
+                "gasPrice": Wei(gas_price),
                 "from": account.address,
                 "nonce": nonce,
             }

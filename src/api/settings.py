@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.postgres",
+    "django_celery_results",
     "consumer",
 ]
 
@@ -95,9 +96,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # COIN SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-CHAIN_ID = env.int("CHAIN_ID", default=0)
-CONTRACT_ADDRESS = env.str("CONTRACT_ADDRESS", default="")
-ACCOUNT_PRIVATE_KEY = env.str("ACCOUNT_PRIVATE_KEY", default="")
+TOKEN_TRANSFER_AMOUNT = env.int("TOKEN_TRANSFER_AMOUNT", default=1)
+TOKEN_URL = env.str("TOKEN_URL", default="")
+TOKEN_CHAIN_ID = env.int("TOKEN_CHAIN_ID", default=0)
+TOKEN_CONTRACT_ADDRESS = env.str("TOKEN_CONTRACT_ADDRESS", default="")
+TOKEN_ACCOUNT_PRIVATE_KEY = env.str("TOKEN_ACCOUNT_PRIVATE_KEY", default="")
 ABI_FILE_NAME = env.str("ABI_FILE_NAME", default="")
 BYTECODE_FILE_NAME = env.str("BYTECODE_FILE_NAME", default="")
 TEST_ABI_FILE_NAME = env.str("TEST_ABI_FILE_NAME", default="api/tests/abi.json")
@@ -106,10 +109,13 @@ TEST_BYTECODE_FILE_NAME = env.str(
 )
 
 
-# GET BLOCK SETTINGS
+# NFT SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-GET_BLOCK_API_KEY = env.str("GET_BLOCK_API_KEY", default="")
-GET_BLOCK_URL = env.str("GET_BLOCK_URL", default="")
+NFT_URL = env.str("NFT_URL", default="")
+NFT_CHAIN_ID = env.int("NFT_CHAIN_ID", default=0)
+NFT_CONTRACT_ADDRESS = env.str("NFT_CONTRACT_ADDRESS", default="")
+NFT_MAX_AMOUNT = env.int("NFT_MAX_AMOUNT", default=0)
+NFT_ABI_FILE_NAME = env.str("NFT_ABI_FILE_NAME", default="")
 
 
 # Database
@@ -118,6 +124,29 @@ DATABASES = {
     "default": env.db_url(
         "DATABASE_DEFAULT_URL",
         default="sqlite:///{}".format(os.path.join(BASE_DIR, "db.sqlite3")),
+    ),
+}
+
+# Sessions
+# ---------------------------------------------------------------------------------------------------------------------
+# Cache to store session data if using the cache session backend.
+SESSION_CACHE_ALIAS = "sessions"
+# The module to store session data
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# A string like "example.com", or None for standard domain cookie.
+SESSION_COOKIE_DOMAIN = env.str("SESSION_COOKIE_DOMAIN", default=None)
+# Whether the session cookie should be secure (https:// only).
+SESSION_COOKIE_SECURE = not DEBUG
+
+
+# CACHE
+# ---------------------------------------------------------------------------------------------------------------------
+CACHES = {
+    "default": env.cache(
+        "CACHES_DEFAULT_URL", default="locmemcache://unique-snowflake"
+    ),
+    "sessions": env.cache(
+        "CACHES_SESSIONS_URL", default="locmemcache://unique-snowflake"
     ),
 }
 
@@ -157,3 +186,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Celery
+# ---------------------------------------------------------------------------------------------------------------------
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_BROKER_URL = env.list("CELERY_BROKER_URL", default=None)
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_RESULT_PERSISTENT = True
+CELERY_RESULT_BACKEND = "django-db"

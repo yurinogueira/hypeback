@@ -34,9 +34,8 @@ manage:
 worker:
 	@docker-compose run --rm server celery -A api worker -l INFO
 
-
-beat:
-	@docker-compose run --rm server celery -A api beat -l INFO
+worker-purger:
+	@docker-compose run --rm server celery -A api purge
 
 # Test and Code Quality
 # -----------------------------------------------------------------------------
