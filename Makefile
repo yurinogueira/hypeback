@@ -43,9 +43,6 @@ beat:
 test:
 	docker-compose run --rm --no-deps server pytest
 
-_pycodestyle:
-	docker-compose run --rm --no-deps server pycodestyle . --exclude= --exclude=migrations,media,static
-
 _isort:
 	docker-compose run --rm --no-deps server isort --diff --check-only .
 
@@ -61,5 +58,5 @@ _isort-clear:
 _black_fix:
 	docker-compose run --rm --no-deps server black .
 
-lint: _isort _pycodestyle _black _mypy
-format-code: _isort-clear
+lint: _isort _black _mypy
+format-code: _isort-clear _black_fix

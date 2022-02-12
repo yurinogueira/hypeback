@@ -82,9 +82,7 @@ WSGI_APPLICATION = "api.wsgi.application"
 
 # DIRECTORY SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-STATIC_URL = urllib.parse.urljoin(
-    env.str("STATIC_HOST", default=""), "/static/"
-)
+STATIC_URL = urllib.parse.urljoin(env.str("STATIC_HOST", default=""), "/static/")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "api/static"),
@@ -102,9 +100,7 @@ CONTRACT_ADDRESS = env.str("CONTRACT_ADDRESS", default="")
 ACCOUNT_PRIVATE_KEY = env.str("ACCOUNT_PRIVATE_KEY", default="")
 ABI_FILE_NAME = env.str("ABI_FILE_NAME", default="")
 BYTECODE_FILE_NAME = env.str("BYTECODE_FILE_NAME", default="")
-TEST_ABI_FILE_NAME = env.str(
-    "TEST_ABI_FILE_NAME", default="api/tests/abi.json"
-)
+TEST_ABI_FILE_NAME = env.str("TEST_ABI_FILE_NAME", default="api/tests/abi.json")
 TEST_BYTECODE_FILE_NAME = env.str(
     "TEST_BYTECODE_FILE_NAME", default="api/tests/bytecode.txt"
 )
@@ -121,7 +117,7 @@ GET_BLOCK_URL = env.str("GET_BLOCK_URL", default="")
 DATABASES = {
     "default": env.db_url(
         "DATABASE_DEFAULT_URL",
-        default="sqlite:///{}".format(os.path.join(BASE_DIR, "db.sqlite3"))
+        default="sqlite:///{}".format(os.path.join(BASE_DIR, "db.sqlite3")),
     ),
 }
 
@@ -131,16 +127,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 

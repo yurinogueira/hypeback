@@ -10,6 +10,5 @@ psycopg2-binary==2.9.3
 eth-tester==0.6.0b6
 py-evm==0.5.0a3
 isort==5.10.1
-pycodestyle==2.8.0
 mypy==0.931
 black==22.1.0

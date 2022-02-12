@@ -52,12 +52,14 @@ class Web3ContractWrapper:
         gas_price = w3.eth.gas_price
         value = int(transaction_model.value * 1e18)
 
-        transaction = contract.functions.transfer(to, value).buildTransaction({
-            "gas": Wei(2000000),
-            "gasPrice": gas_price,
-            "from": account.address,
-            "nonce": nonce,
-        })
+        transaction = contract.functions.transfer(to, value).buildTransaction(
+            {
+                "gas": Wei(2000000),
+                "gasPrice": gas_price,
+                "from": account.address,
+                "nonce": nonce,
+            }
+        )
         private_key = self.account_private_key
         signed_txn = w3.eth.account.sign_transaction(
             transaction_dict=transaction, private_key=private_key
