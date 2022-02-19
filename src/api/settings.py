@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.postgres",
     "django_celery_results",
+    "django_celery_beat",
     "consumer",
 ]
 
