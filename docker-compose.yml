@@ -42,10 +42,8 @@ services:
     container_name: hyperback-container
     ports:
       - "8000:8000"
-    environment:
-      COMMAND: development
 
-  worker:
+  production:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
@@ -65,33 +63,9 @@ services:
       - api-hyperback-proxy-network
     env_file:
       - ./config/.env
-    container_name: hyperback-worker-container
-    environment:
-        COMMAND: worker
-
-  beat:
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      cache_from:
-        - "api:latest"
-    image: "api:latest"
-    restart: "unless-stopped"
-    stop_grace_period: "5s"
-    volumes:
-      - ./src:/usr/src/app
-      - django-static:/var/www/django/static
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - api-hyperback-network
-      - api-hyperback-proxy-network
-    env_file:
-      - ./config/.env
-    container_name: hyperback-beat-container
-    environment:
-        COMMAND: beat
+    container_name: hyperback-production-container
+    ports:
+      - "8000:8000"
 
 networks:
   api-hyperback-proxy-network:
