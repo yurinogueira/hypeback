@@ -9,44 +9,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Configure SSH
-        env:
-          SSH_USER: ${{ secrets.STAGING_SSH_USER }}
-          SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
-          SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/staging.key
-          chmod 600 ~/.ssh/staging.key
-          cat >>~/.ssh/config <<END
-          Host staging
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/staging.key
-            StrictHostKeyChecking no
-          END
-
-      - name: Stop Server
+      - name: Run Deploy
+        uses: appleboy/ssh-action@master
         env:
           BEAT_SERVICE: ${{ secrets.BEAT_SERVICE }}
           WORKER_SERVICE: ${{ secrets.WORKER_SERVICE }}
           APPLICATION_SERVICE: ${{ secrets.APPLICATION_SERVICE }}
-        run: |
-          ssh staging 'systemctl stop $BEAT_SERVICE'
-          ssh staging 'systemctl stop $WORKER_SERVICE'
-          ssh staging 'systemctl stop $APPLICATION_SERVICE'
-
-      - name: Update Files
-        env:
           PROJECT_FOLDER: ${{ secrets.PROJECT_FOLDER }}
-        run: ssh staging 'cd $PROJECT_FOLDER && git pull'
-
-      - name: Start the server
-        env:
-          BEAT_SERVICE: ${{ secrets.BEAT_SERVICE }}
-          WORKER_SERVICE: ${{ secrets.WORKER_SERVICE }}
-          APPLICATION_SERVICE: ${{ secrets.APPLICATION_SERVICE }}
-        run: |
-          ssh staging 'systemctl start $APPLICATION_SERVICE'
-          ssh staging 'systemctl start $WORKER_SERVICE'
-          ssh staging 'systemctl start $BEAT_SERVICE'
+        with:
+          host: ${{ secrets.STAGING_SSH_HOST }}
+          username: ${{ secrets.STAGING_SSH_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          envs: BEAT_SERVICE,WORKER_SERVICE,APPLICATION_SERVICE,PROJECT_FOLDER
+          script: |
+            systemctl stop $BEAT_SERVICE
+            systemctl stop $WORKER_SERVICE
+            systemctl stop $APPLICATION_SERVICE
+            cd $PROJECT_FOLDER && git pull
+            systemctl start $APPLICATION_SERVICE
+            systemctl start $WORKER_SERVICE
+            systemctl start $BEAT_SERVICE
