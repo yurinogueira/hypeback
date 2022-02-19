@@ -9,6 +9,7 @@ pytest-socket==0.5.1
 psycopg2-binary==2.9.3
 eth-tester==0.6.0b6
 py-evm==0.5.0a3
+gunicorn==20.1.0
 isort==5.10.1
 mypy==0.931
 black==22.1.0

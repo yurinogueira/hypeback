@@ -29,6 +29,20 @@ createsuperuser:
 manage:
 	docker-compose run --rm server python manage.py $(args)
 
+# Production
+# -----------------------------------------------------------------------------
+production:
+	docker-compose run --rm --service-ports production python gunicorn --bind 0.0.0.0:8000 --workers 3 api.wsgi
+
+production-migrate:
+	docker-compose run --rm production python manage.py migrate --noinput
+
+production-worker:
+	@docker-compose run --rm production celery -A api worker -l INFO
+
+production-beat:
+	@docker-compose run --rm production celery -A api beat -l INFO
+
 # Queue
 # -----------------------------------------------------------------------------
 worker:
