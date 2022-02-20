@@ -18,3 +18,4 @@ django-celery-results==2.2.0
 git+https://github.com/celery/django-celery-beat@master#egg=django-celery-beat
 redis==4.1.4
 django-redis==5.2.0
+slack-sdk==3.15.1

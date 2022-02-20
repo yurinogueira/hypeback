@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django_celery_results",
     "django_celery_beat",
     "consumer",
+    "slack",
 ]
 
 MIDDLEWARE = [
@@ -75,6 +76,10 @@ TEMPLATES = [
     },
 ]
 
+
+# SLACK SETTINGS
+# ---------------------------------------------------------------------------------------------------------------------
+SLACK_BOT_TOKEN = env.str("SLACK_BOT_TOKEN", default="")
 
 # APLICATION SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
