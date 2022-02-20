@@ -35,19 +35,19 @@ production:
 	sudo docker compose run --rm --service-ports production gunicorn --bind 0.0.0.0:80 --workers 3 api.wsgi
 
 production-createsuperuser:
-	docker compose run --rm production python manage.py createsuperuser
+	sudo docker compose run --rm production python manage.py createsuperuser
 
 production-collectstatic:
-	docker compose run --rm production python manage.py collectstatic
+	sudo docker compose run --rm production python manage.py collectstatic
 
 production-migrate:
-	docker compose run --rm production python manage.py migrate --noinput
+	sudo docker compose run --rm production python manage.py migrate --noinput
 
 production-worker:
-	docker compose run --rm production celery -A api worker -l INFO
+	sudo docker compose run --rm production celery -A api worker -l INFO
 
 production-beat:
-	docker compose run --rm production celery -A api beat -l INFO
+	sudo docker compose run --rm production celery -A api beat -l INFO
 
 # Queue
 # -----------------------------------------------------------------------------
