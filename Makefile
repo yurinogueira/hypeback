@@ -32,22 +32,22 @@ manage:
 # Production
 # -----------------------------------------------------------------------------
 production:
-	sudo docker compose run --rm --service-ports production gunicorn --bind 0.0.0.0:80 --workers 3 api.wsgi
+	docker compose run --rm --service-ports production gunicorn --bind 0.0.0.0:8000 --workers 3 api.wsgi
 
 production-createsuperuser:
-	sudo docker compose run --rm production python manage.py createsuperuser
+	docker compose run --rm production python manage.py createsuperuser
 
 production-collectstatic:
-	sudo docker compose run --rm production python manage.py collectstatic
+	docker compose run --rm production python manage.py collectstatic
 
 production-migrate:
-	sudo docker compose run --rm production python manage.py migrate --noinput
+	docker compose run --rm production python manage.py migrate --noinput
 
 production-worker:
-	sudo docker compose run --rm production celery -A api worker -l INFO
+	docker compose run --rm production celery -A api worker -l INFO
 
 production-beat:
-	sudo docker compose run --rm production celery -A api beat -l INFO
+	docker compose run --rm production celery -A api beat -l INFO
 
 # Queue
 # -----------------------------------------------------------------------------
