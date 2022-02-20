@@ -22,8 +22,11 @@ ENV TZ America/Sao_Paulo
 # Dependencies
 COPY ./requirements.txt .
 
+RUN apt update -yq && apt install -yq --no-install-recommends gettext && rm -rf /var/lib/apt/lists/*
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 WORKDIR /usr/src/app
 COPY ./src /usr/src/app
+
+RUN python manage.py collectstatic --noinput
