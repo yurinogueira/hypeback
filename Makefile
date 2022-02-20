@@ -32,7 +32,7 @@ manage:
 # Production
 # -----------------------------------------------------------------------------
 production:
-	docker compose run --rm --service-ports production gunicorn --bind 0.0.0.0:8000 --workers 3 api.wsgi
+	docker compose run --rm --service-ports production gunicorn --bind 0.0.0.0:8080 --workers 3 api.wsgi
 
 production-createsuperuser:
 	docker compose run --rm production python manage.py createsuperuser
