@@ -43,6 +43,8 @@ production-collectstatic:
 production-migrate:
 	docker compose run --rm production python manage.py migrate --noinput
 
+production-prerun: build production-collectstatic production-migrate
+
 production-worker:
 	docker compose run --rm production celery -A api worker -l INFO
 
