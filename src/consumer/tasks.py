@@ -5,7 +5,7 @@ from celery import shared_task
 from consumer.exceptions import NFTNotExistException, TransactionException
 from consumer.models import Transaction
 from consumer.wrappers import Web3ContractWrapper, Web3TokenWrapper
-from slack.wrappers import SlackWrapper
+from notifications.wrappers import SlackWrapper
 
 
 @shared_task
