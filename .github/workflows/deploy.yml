@@ -22,6 +22,8 @@ jobs:
           key: ${{ secrets.STAGING_SSH_KEY }}
           envs: BEAT_SERVICE,WORKER_SERVICE,APPLICATION_SERVICE,PROJECT_FOLDER
           script: |
+            eval $(ssh-agent)
+            ssh-add github
             systemctl stop $BEAT_SERVICE
             systemctl stop $WORKER_SERVICE
             systemctl stop $APPLICATION_SERVICE
