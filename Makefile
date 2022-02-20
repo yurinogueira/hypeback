@@ -38,7 +38,7 @@ production-createsuperuser:
 	docker compose run --rm production python manage.py createsuperuser
 
 production-collectstatic:
-	docker compose run --rm production python manage.py collectstatic
+	docker compose run --rm production python manage.py collectstatic --noinput
 
 production-migrate:
 	docker compose run --rm production python manage.py migrate --noinput
