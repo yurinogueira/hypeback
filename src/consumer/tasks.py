@@ -52,5 +52,13 @@ def send_coin_to(nft_id: int, has_next: bool):
 
 
 @shared_task
+def send_coin_to_list(nft_list_id: list[int], index: int):
+    send_coin_to(nft_list_id[index], False)
+    index += 1
+    if index < len(nft_list_id):
+        send_coin_to_list.apply_async(args=[nft_list_id, index])
+
+
+@shared_task
 def send_coins():
     send_coin_to.apply_async(args=[1, True])
