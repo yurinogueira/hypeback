@@ -113,9 +113,9 @@ TOKENS_ACCOUNT_PRIVATE_KEY = env.list("TOKENS_ACCOUNT_PRIVATE_KEY", default=[""]
 
 # NFT SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-NFTS_URL = env.list("NFT_URL", default=[""])
-NFTS_CONTRACT_ADDRESS = env.list("NFT_CONTRACT_ADDRESS", default=[""])
-NFTS_MAX_AMOUNT = env.list("NFT_MAX_AMOUNT", default=[0])
+NFTS_URL = env.list("NFTS_URL", default=[""])
+NFTS_CONTRACT_ADDRESS = env.list("NFTS_CONTRACT_ADDRESS", default=[""])
+NFTS_MAX_AMOUNT = env.list("NFTS_MAX_AMOUNT", default=[0])
 
 
 # Database
