@@ -105,17 +105,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # COIN SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-TOKENS_TRANSFER_AMOUNT = env.list("TOKENS_TRANSFER_AMOUNT", default=list[1])
-TOKENS_URL = env.list("TOKENS_URL", default=list[""])
-TOKENS_CONTRACT_ADDRESS = env.list("TOKENS_CONTRACT_ADDRESS", default=list[""])
-TOKENS_ACCOUNT_PRIVATE_KEY = env.list("TOKENS_ACCOUNT_PRIVATE_KEY", default=list[""])
+TOKENS_TRANSFER_AMOUNT = env.list("TOKENS_TRANSFER_AMOUNT", default=[1])
+TOKENS_URL = env.list("TOKENS_URL", default=[""])
+TOKENS_CONTRACT_ADDRESS = env.list("TOKENS_CONTRACT_ADDRESS", default=[""])
+TOKENS_ACCOUNT_PRIVATE_KEY = env.list("TOKENS_ACCOUNT_PRIVATE_KEY", default=[""])
 
 
 # NFT SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-NFTS_URL = env.list("NFT_URL", default=list[""])
-NFTS_CONTRACT_ADDRESS = env.list("NFT_CONTRACT_ADDRESS", default=list[""])
-NFTS_MAX_AMOUNT = env.list("NFT_MAX_AMOUNT", default=list[0])
+NFTS_URL = env.list("NFT_URL", default=[""])
+NFTS_CONTRACT_ADDRESS = env.list("NFT_CONTRACT_ADDRESS", default=[""])
+NFTS_MAX_AMOUNT = env.list("NFT_MAX_AMOUNT", default=[0])
 
 
 # Database
