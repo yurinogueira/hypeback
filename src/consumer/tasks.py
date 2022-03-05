@@ -29,7 +29,7 @@ def send_coin_to(nft_id: int, has_next: bool, nft: int, token: int):
 
     transaction = Transaction(
         to=nft_id_address,
-        value=settings.TOKENS_TRANSFER_AMOUNT[0],
+        value=int(settings.TOKENS_TRANSFER_AMOUNT[0]),
         web3_connection=token_w3,
         contract=token_contract,
         account=token_account,
@@ -47,7 +47,7 @@ def send_coin_to(nft_id: int, has_next: bool, nft: int, token: int):
 
     if has_next:
         next_nft_id = nft_id + 1
-        next_has_next = next_nft_id < settings.NFTS_MAX_AMOUNT[nft]
+        next_has_next = next_nft_id < int(settings.NFTS_MAX_AMOUNT[nft])
         send_coin_to.apply_async(args=[next_nft_id, next_has_next])
 
 
