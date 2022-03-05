@@ -12,13 +12,14 @@ from consumer.models import Transaction
 
 
 class Web3ContractWrapper:
-    def __init__(self):
-        self.abi_file_name = settings.NFT_ABI_FILE_NAME
-        self.url = settings.NFT_URL
-        self.contract_address = settings.NFT_CONTRACT_ADDRESS
+    def __init__(self, nft_id: int = 0, abi_file_path: str = "api/static/nft/"):
+        self.abi_file_path = abi_file_path
+        self.nft_id = nft_id
+        self.url = settings.NFTS_URL[nft_id]
+        self.contract_address = settings.NFTS_CONTRACT_ADDRESS[nft_id]
 
     def load_abi(self) -> dict:
-        file = open(self.abi_file_name)
+        file = open(f"{self.abi_file_path}{self.nft_id}.json")
         data = json.load(file)
         file.close()
 
@@ -35,13 +36,11 @@ class Web3ContractWrapper:
 
 
 class Web3TokenWrapper(Web3ContractWrapper):
-    def __init__(self):
-        super(Web3TokenWrapper, self).__init__()
-        self.url = settings.TOKEN_URL
-        self.contract_address = settings.TOKEN_CONTRACT_ADDRESS
-        self.abi_file_name = settings.ABI_FILE_NAME
-        self.account_private_key = settings.TOKEN_ACCOUNT_PRIVATE_KEY
-        self.chain_id = settings.TOKEN_CHAIN_ID
+    def __init__(self, nft_id: int = 0):
+        super(Web3TokenWrapper, self).__init__(nft_id, "api/static/token/")
+        self.url = settings.TOKENS_URL[nft_id]
+        self.contract_address = settings.TOKENS_CONTRACT_ADDRESS[nft_id]
+        self.account_private_key = settings.TOKENS_ACCOUNT_PRIVATE_KEY[nft_id]
 
     def get_account(self, w3: Web3) -> LocalAccount:
         account = w3.eth.account.from_key(self.account_private_key)

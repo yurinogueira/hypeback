@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 import urllib.parse
 
+from django.core.management.utils import get_random_secret_key
+
 import environ
 
 env = environ.Env()
@@ -25,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-SECRET_KEY = env.str("SECRET_KEY", default="")
+SECRET_KEY = env.str("SECRET_KEY", default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
@@ -103,26 +105,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # COIN SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-TOKEN_TRANSFER_AMOUNT = env.int("TOKEN_TRANSFER_AMOUNT", default=1)
-TOKEN_URL = env.str("TOKEN_URL", default="")
-TOKEN_CHAIN_ID = env.int("TOKEN_CHAIN_ID", default=0)
-TOKEN_CONTRACT_ADDRESS = env.str("TOKEN_CONTRACT_ADDRESS", default="")
-TOKEN_ACCOUNT_PRIVATE_KEY = env.str("TOKEN_ACCOUNT_PRIVATE_KEY", default="")
-ABI_FILE_NAME = env.str("ABI_FILE_NAME", default="")
-BYTECODE_FILE_NAME = env.str("BYTECODE_FILE_NAME", default="")
-TEST_ABI_FILE_NAME = env.str("TEST_ABI_FILE_NAME", default="api/tests/abi.json")
-TEST_BYTECODE_FILE_NAME = env.str(
-    "TEST_BYTECODE_FILE_NAME", default="api/tests/bytecode.txt"
+TOKENS_TRANSFER_AMOUNT = env.list("TOKENS_TRANSFER_AMOUNT", default=1, cast=int)
+TOKENS_URL = env.list("TOKENS_URL", default="", cast=str)
+TOKENS_CONTRACT_ADDRESS = env.list("TOKENS_CONTRACT_ADDRESS", default="", cast=str)
+TOKENS_ACCOUNT_PRIVATE_KEY = env.list(
+    "TOKENS_ACCOUNT_PRIVATE_KEY", default="", cast=str
 )
 
 
 # NFT SETTINGS
 # ---------------------------------------------------------------------------------------------------------------------
-NFT_URL = env.str("NFT_URL", default="")
-NFT_CHAIN_ID = env.int("NFT_CHAIN_ID", default=0)
-NFT_CONTRACT_ADDRESS = env.str("NFT_CONTRACT_ADDRESS", default="")
-NFT_MAX_AMOUNT = env.int("NFT_MAX_AMOUNT", default=0)
-NFT_ABI_FILE_NAME = env.str("NFT_ABI_FILE_NAME", default="")
+NFTS_URL = env.list("NFT_URL", default="", cast=str)
+NFTS_CONTRACT_ADDRESS = env.list("NFT_CONTRACT_ADDRESS", default="", cast=str)
+NFTS_MAX_AMOUNT = env.list("NFT_MAX_AMOUNT", default=0, cast=int)
 
 
 # Database

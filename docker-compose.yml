@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3"
 
 services:
   postgres:
@@ -18,14 +18,13 @@ services:
       - redisdata:/data
     networks:
       - api-hyperback-network
+    env_file: ./config/.env
 
   server:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
-      cache_from:
-        - "api:latest"
-    image: "api:latest"
+    image: "hypeback-api:latest"
     restart: "unless-stopped"
     stop_grace_period: "5s"
     volumes:
@@ -37,8 +36,7 @@ services:
     networks:
       - api-hyperback-network
       - api-hyperback-proxy-network
-    env_file:
-      - ./config/.env
+    env_file: ./config/.env
     container_name: hyperback-container
     ports:
       - "8000:8000"
@@ -47,9 +45,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
-      cache_from:
-        - "api:latest"
-    image: "api:latest"
+    image: "hypeback-api:latest"
     restart: "unless-stopped"
     stop_grace_period: "5s"
     volumes:
@@ -61,8 +57,7 @@ services:
     networks:
       - api-hyperback-network
       - api-hyperback-proxy-network
-    env_file:
-      - ./config/.env
+    env_file: ./config/.env
     container_name: hyperback-production-container
     ports:
       - "8000:8000"

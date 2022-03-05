@@ -1,7 +1,5 @@
 import json
 
-from django.conf import settings
-
 import pytest
 from web3 import EthereumTesterProvider, Web3
 
@@ -21,12 +19,12 @@ class TestWeb3Contract:
 
     @pytest.fixture
     def bytecode(self):
-        with open(settings.TEST_BYTECODE_FILE_NAME) as file:
+        with open("api/static/nft/test.txt") as file:
             return file.readline()
 
     @pytest.fixture
     def abi(self):
-        with open(settings.TEST_ABI_FILE_NAME) as file:
+        with open("api/static/nft/test.json") as file:
             return json.load(file)
 
     @pytest.fixture

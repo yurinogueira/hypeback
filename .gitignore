@@ -114,6 +114,9 @@ venv.bak/
 # mkdocs documentation
 /site
 
+# nft
+[0-9].json
+
 # mypy
 .mypy_cache/
 
@@ -143,3 +146,4 @@ GitHub.sublime-settings
 .history
 
 /config/.env.production
+/api/static/admin
