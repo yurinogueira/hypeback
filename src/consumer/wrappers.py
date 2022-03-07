@@ -26,7 +26,7 @@ class Web3ContractWrapper:
         return data
 
     def connect_to_w3(self) -> Web3:
-        provider = Web3.HTTPProvider(self.url)
+        provider = Web3.HTTPProvider(self.url, request_kwargs={"timeout": 120})
         w3 = Web3(provider)
         w3.middleware_onion.inject(geth_poa_middleware, layer=0)
         return w3
